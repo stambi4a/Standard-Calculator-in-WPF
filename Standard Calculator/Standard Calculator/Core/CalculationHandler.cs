@@ -85,7 +85,7 @@
  
             if (result[0] != null)
             {
-                this.CurrentInput = result[0].ToString();
+                this.SetInput(result[0]);
             }
 
             if (result[1] == null)

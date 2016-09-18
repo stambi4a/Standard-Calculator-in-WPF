@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
     using System.Windows.Input;
     using System.Windows.Threading;
 
@@ -141,6 +142,7 @@
         #region CustomEvents
         private void ChangeInputFieldContent(object sender, ChangeTextEventArgs args)
         {
+            this.InputField.Document = new FlowDocument();
             this.InputField.Selection.Text = args.FieldValue;
         }
 
@@ -290,17 +292,6 @@
             {
                 this.EqualsButton.Focus();
             }
-        }
-
-        private void InputFieldMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.OutputField.Focus();
-        }
-
-        private void PreviewDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
-            this.OutputField.Focus();
         }
     }
 }
