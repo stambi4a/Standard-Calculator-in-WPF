@@ -5,6 +5,11 @@
     Title="Calculator         " Height="251" Width="258" Visibility="Visible" Opacity="1" Foreground="{x:Null}" 
         ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
         Cursor="Arrow" SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="CornflowerBlue" WindowStyle="None" Icon="PresentationResources/Calc32x32.ico" KeyDown="MainWindowDetectKeyDown" PreviewKeyDown="MainWindowPreviewKeyDown" >
+    <Window.InputBindings>
+        <KeyBinding Command="Copy" 
+                Key="C" 
+                Modifiers="Control"/>
+    </Window.InputBindings>
     <Window.Resources>
         <!--Control colors.-->
         <Color x:Key="ControlLightColor">#ffff80</Color>
@@ -193,19 +198,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="SubMenuStyle" TargetType="{x:Type Menu}">
-            <Setter Property="Background" Value="{x:Null}"/>
-            <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
-            <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
-            <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
-            <Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MenuFontWeightKey}}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/>
+        <Style x:Key="SubMenuStyle" TargetType="{x:Type MenuBase}">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Menu}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Width="{TemplateBinding Width}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ControlTemplate TargetType="{x:Type MenuBase}">
+                        <Border>
+                            <ItemsPresenter HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -458,7 +457,7 @@
 
     <Grid x:Name="MainGrid" ShowGridLines="True" Loaded="MainGridLoaded">
         <Menu x:Name="MainMenu" Style="{DynamicResource SubMenuStyle}" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="Auto" Margin="3,3,0,0">
-            <MenuItem x:Name="ModeSubMenu" Header="Mode" Foreground="#FF64FFFF" FontSize="12" FontWeight="Bold" Width="60" Template="{DynamicResource SubMenuControlTemplate}" Height="22" Padding="-6,1,0,1"  BorderThickness="1,1,0,1" SnapsToDevicePixels="False">
+            <MenuItem x:Name="ModeSubMenu" Header="Mode" Foreground="#FF64FFFF" FontSize="12" FontWeight="Bold" Width="60" Template="{DynamicResource SubMenuControlTemplate}" Height="22" Padding="-6,1,0,1"  BorderThickness="1,1,0,1">
                 <MenuItem x:Name="StandardMenuItem" Template="{DynamicResource SubMenuControlTemplate}" Header="Standard" HorizontalAlignment="Left" Width="100" Height="22" Margin="0,1,0,0" Padding="-5,1,0,0" IsCheckable="True" Click ="ModeSubMenuItemClick" IsChecked="True"
                       BorderThickness="1,0,1,1" Background="{x:Null}">
                 </MenuItem>
@@ -485,7 +484,7 @@
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem x:Name="UnitConversionsMenuItem" Header="Conversions" Template="{DynamicResource SubMenuControlTemplate}" HorizontalAlignment="Left" Width="100" Height="21" Margin="0" Padding="-5,1,0,0" IsCheckable="True" Click ="ModeSubMenuItemClick" BorderThickness="1,0,1,1" Background="{x:Null}">
+                <MenuItem x:Name="UnitConversionsMenuItem" Header="Conversions" Template="{DynamicResource SubMenuControlTemplate}" HorizontalAlignment="Left" Width="100" Height="20" Margin="0" Padding="-5,1,0,0" IsCheckable="True" Click ="ModeSubMenuItemClick" BorderThickness="1,0,1,1" Background="{x:Null}">
                 </MenuItem>
             </MenuItem>
             <MenuItem x:Name="ViewSubMenu" Header="View" Template="{DynamicResource SubMenuControlTemplate}" Foreground="#FF64FFFF" FontSize="12" FontWeight="Bold" Width="60" Padding="-6,1,0,1" Margin="0,0,0,0" BorderThickness="0,1,0,1"  SnapsToDevicePixels="False">
@@ -514,13 +513,19 @@
                 </MenuItem>
                 <MenuItem x:Name="TutorialMenuItem" Header="Tutorial" Template="{DynamicResource SubMenuControlTemplate}" HorizontalAlignment="Left" Width="70" Height="22" Margin="1,0,0,0" Padding="-5,1,0,0" BorderThickness="1,0,1,1" Background="{x:Null}">
                 </MenuItem>
-                <MenuItem x:Name="LinksMenuItem" Header="Links" Template="{DynamicResource SubMenuControlTemplate}" HorizontalAlignment="Left" Width="70" Height="21" Margin="1,0,0,0" Padding="-5,1,0,0" BorderThickness="1,0,1,1" Background="{x:Null}">
+                <MenuItem x:Name="LinksMenuItem" Header="Links" Template="{DynamicResource SubMenuControlTemplate}" HorizontalAlignment="Left" Width="70" Height="20" Margin="1,0,0,0" Padding="-5,1,0,0" BorderThickness="1,0,1,1" Background="{x:Null}">
                 </MenuItem>
             </MenuItem>
         </Menu>
         <StackPanel HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="250" RenderTransformOrigin="0.66,0.8" Margin="3,30,0,0" Background="#FF020217" Opacity="0.9" Grid.ColumnSpan="2">
-            <RichTextBox x:Name="InputField" Opacity="0.9" BorderBrush="#FF3399FF" Background="{x:Null}" SelectionBrush="#FF107415" FontStyle="Italic" Foreground="#FFF9EE00" RenderTransformOrigin="0.753,-0.278" Height="33" BorderThickness="1,1,1,0" FontFamily="Microsoft Sans Serif" FontSize="14"/>
-            <RichTextBox x:Name="OutputField" Opacity="0.9" BorderBrush="#FF3399FF" Background="{x:Null}" SelectionBrush="#FF107415" Foreground="#FFF9EE00" RenderTransformOrigin="0.753,-0.278" Height="33" BorderThickness="1,0,1,1" FontSize="14" FontFamily="Microsoft Sans Serif" >
+            <RichTextBox x:Name="InputField" Opacity="0.9" BorderBrush="#FF3399FF" Background="{x:Null}" SelectionBrush="#FF107415" FontStyle="Italic" Foreground="#FFF9EE00" RenderTransformOrigin="0.753,-0.278" Height="33" BorderThickness="1,1,1,0" FontFamily="Microsoft Sans Serif" FontSize="14" IsReadOnly="True" ContextMenu="{x:Null}" Cursor="Arrow" SelectionOpacity="0" IsTabStop="False" MouseDown="InputFieldMouseLeftButtonDown" MouseUp="InputFieldMouseLeftButtonDown" MouseLeftButtonDown="InputFieldMouseLeftButtonDown" MouseLeftButtonUp="InputFieldMouseLeftButtonDown" PreviewMouseLeftButtonDown="PreviewDown" PreviewMouseDoubleClick="PreviewDown" MouseDoubleClick="InputFieldMouseLeftButtonDown" PreviewMouseDown="PreviewDown" PreviewMouseUp="PreviewDown"/>
+            <RichTextBox x:Name="OutputField" Opacity="0.9" BorderBrush="#FF3399FF" Background="{x:Null}" SelectionBrush="#FF107415" Foreground="#FFF9EE00" RenderTransformOrigin="0.753,-0.278" Height="33" BorderThickness="1,0,1,1" FontSize="14" FontFamily="Microsoft Sans Serif" IsReadOnly="True" Cursor="Arrow" SelectionOpacity="0">
+                <RichTextBox.ContextMenu>
+                    <ContextMenu Style="{DynamicResource SubMenuStyle}" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="Auto" Margin="0,20,0,0">
+                        <MenuItem Name="OutputFieldCopyMenuItem" Command="Copy" Header="Copy Ctrl+C" Template="{DynamicResource SubMenuControlTemplate}" Foreground="#FF64FFFF" FontSize="12" FontWeight="Bold" Width="Auto" Height="22" Padding="-10,0,10,1"  BorderThickness="1" Margin="0">
+                        </MenuItem>
+                    </ContextMenu>
+                </RichTextBox.ContextMenu>
                 <FlowDocument TextAlignment="Right"/>
             </RichTextBox>
         </StackPanel>

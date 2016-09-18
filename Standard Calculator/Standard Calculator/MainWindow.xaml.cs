@@ -263,8 +263,16 @@
                     break;
 
                 case Key.Back:
+                case Key.Delete:
                     {
                         this.ButtonClick(this.DeleteSpecialButton, null);
+                    }
+
+                    break;
+                case Key.LeftCtrl:
+                case Key.RightCtrl:
+                    {
+                        this.OutputField.Focus();
                     }
 
                     break;
@@ -272,8 +280,6 @@
                     return;
 
             }
-
-            this.ClearAllButton.IsEnabled = true;
         }
 
         #endregion
@@ -284,6 +290,17 @@
             {
                 this.EqualsButton.Focus();
             }
+        }
+
+        private void InputFieldMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.OutputField.Focus();
+        }
+
+        private void PreviewDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            this.OutputField.Focus();
         }
     }
 }
